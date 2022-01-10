@@ -1,9 +1,12 @@
 package fr.epita.titanic.datamodel;
 
+import java.util.Objects;
+
 public class Passenger {
     //PassengerId,Pclass,Name,Sex,Age,SibSp,Parch,Ticket,Fare,Cabin,Embarked
 
     private Integer passengerId;
+    private Integer survived;
     private Integer pClass;
     private String name;
     private String sex;
@@ -14,6 +17,14 @@ public class Passenger {
     private Double fare;
     private String cabin;
     private String embarked;
+
+    public Integer getSurvived() {
+        return survived;
+    }
+
+    public void setSurvived(Integer survived) {
+        this.survived = survived;
+    }
 
     public Integer getPassengerId() {
         return passengerId;
@@ -104,6 +115,34 @@ public class Passenger {
     }
 
 
-
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"passengerId\":")
+                .append(passengerId);
+        sb.append(",\"survived\":")
+                .append(survived);
+        sb.append(",\"pClass\":")
+                .append(pClass);
+        sb.append(",\"name\":\"")
+                .append(Objects.toString(name, "")).append('\"');
+        sb.append(",\"sex\":\"")
+                .append(Objects.toString(sex, "")).append('\"');
+        sb.append(",\"age\":")
+                .append(age);
+        sb.append(",\"sibSp\":")
+                .append(sibSp);
+        sb.append(",\"parch\":")
+                .append(parch);
+        sb.append(",\"ticket\":\"")
+                .append(Objects.toString(ticket, "")).append('\"');
+        sb.append(",\"fare\":")
+                .append(fare);
+        sb.append(",\"cabin\":\"")
+                .append(Objects.toString(cabin, "")).append('\"');
+        sb.append(",\"embarked\":\"")
+                .append(Objects.toString(embarked, "")).append('\"');
+        sb.append('}');
+        return sb.toString();
+    }
 }
