@@ -1,14 +1,11 @@
 package fr.epita.titanic.tests;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.epita.titanic.datamodel.Passenger;
 import fr.epita.titanic.services.GenericCSVReader;
 
 public class TestCSVReading {
@@ -16,18 +13,16 @@ public class TestCSVReading {
     public static final String DELIM = ",";
     public static final String ESCAPE_CHAR = "\"";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+        givenCSVLineIsRegular_ThenWeShouldBeAbleToExtractPassenger();
+        givenAnEscapedColumnContainingDelim_thenWeShouldBeAbleToExtractPassenger();
 
-        GenericCSVReader csvReader = new GenericCSVReader(DELIM, ESCAPE_CHAR);
-        //unit test
-        List<String> columnsValues = csvReader.extractColumnValues("892,3,\"Kelly, ,Mr. James\",male,34.5,0,0,330911,7.8292,,Q");
-        System.out.println(columnsValues);
-        //unit test
-        columnsValues = csvReader.extractColumnValues("\"Kelly, ,Mr. James\",892,3,male,34.5,0,0,330911,7.8292,,Q");
-        System.out.println(columnsValues);
-        System.out.println(columnsValues.size());
+    }
 
-        //global test
+
+    private void old() throws Exception {
+
+        //given
         List<String> lines = Files.readAllLines(Path.of("S:\\Work\\ae\\Epita\\workspaces\\2021-t3-java-uml-ais\\titanic-training\\test.csv"));
         List<String> errorLines = new ArrayList<>();
         for (String line : lines){
@@ -37,6 +32,14 @@ public class TestCSVReading {
                 errorLines.add(line);
             }
         }
+        //then for test
+        if (lines.size() != 419){
+            throw new Exception("the count was not as expected, got : " + lines.size() + "expected 419");
+        }else{
+            System.out.println("successfully read and extracted file");
+        }
+
+        //then for train
         lines = Files.readAllLines(Path.of("S:\\Work\\ae\\Epita\\workspaces\\2021-t3-java-uml-ais\\titanic-training\\train.csv"));
 
         for (String line : lines){
@@ -47,28 +50,47 @@ public class TestCSVReading {
             }
         }
 
+        //then
         System.out.println("errors: " +errorLines);
-
-
-
     }
 
 
+    private static void givenCSVLineIsRegular_ThenWeShouldBeAbleToExtractPassenger() throws Exception {
+        //given - start state / hypothesis
+        String line = "62,1,1,\"Icard Miss. Amelie\",female,38,0,0,113572,80,B28,";
 
 
+        //when
+        GenericCSVReader csvReader = new GenericCSVReader(",","\"");
+        List<String> strings = csvReader.extractColumnValues(line);
 
 
-    public static boolean detectEscapedColumn(String remainingString, String delim, String escapeString) {
-        boolean match = true;
-        String startToken  = delim + escapeString;
-        for (int i = 0; i < delim.length(); i++) {
-            if (i <= remainingString.length() - 1) {
-                match &= startToken.charAt(i) == remainingString.charAt(i);
-            } else {
-                return false;
-            }
+        //then
+        if (strings.size() != 12){
+            throw new Exception("expected size : 12, got "+ strings.size());
+        }else{
+            System.out.println("givenCSVLineIsRegular_ThenWeShouldBeAbleToExtractPassenger : success");
         }
-        return match;
+
+    }
+
+    private static void givenAnEscapedColumnContainingDelim_thenWeShouldBeAbleToExtractPassenger() throws Exception {
+        //given - start state / hypothesis
+        String line = "62,1,1,\"Icard, Miss. Amelie\",female,38,0,0,113572,80,B28,";
+
+
+        //when
+        GenericCSVReader csvReader = new GenericCSVReader(",","\"");
+        List<String> strings = csvReader.extractColumnValues(line);
+
+
+        //then
+        if (strings.size() != 12){
+            throw new Exception("expected size : 12, got "+ strings.size());
+        }else{
+            System.out.println("givenAnEscapedColumnContainingDelim_thenWeShouldBeAbleToExtractPassenger: success");
+        }
+
     }
 
 }
