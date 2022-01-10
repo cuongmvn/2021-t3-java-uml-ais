@@ -16,18 +16,40 @@ public class TestCSVReading {
     public static void main(String[] args) throws Exception {
         givenCSVLineIsRegular_ThenWeShouldBeAbleToExtractPassenger();
         givenAnEscapedColumnContainingDelim_thenWeShouldBeAbleToExtractPassenger();
+        givenTheTestFile_ThenTheCSVReaderShouldExtractAllTheLines();
 
     }
 
 
-    private void old() throws Exception {
+//    private void old() throws Exception {
+//
+//
+//
+//        //then for train
+//        lines = Files.readAllLines(Path.of("S:\\Work\\ae\\Epita\\workspaces\\2021-t3-java-uml-ais\\titanic-training\\train.csv"));
+//
+//        for (String line : lines){
+//            try {
+//                System.out.println(csvReader.extractColumnValues(line));
+//            }catch (Exception e){
+//                errorLines.add(line);
+//            }
+//        }
+//
+//        //then
+//        System.out.println("errors: " +errorLines);
+//    }
 
+    private static void givenTheTestFile_ThenTheCSVReaderShouldExtractAllTheLines() throws Exception{
         //given
-        List<String> lines = Files.readAllLines(Path.of("S:\\Work\\ae\\Epita\\workspaces\\2021-t3-java-uml-ais\\titanic-training\\test.csv"));
+        List<String> lines = Files.readAllLines(Path.of("./titanic-training/test.csv"));
         List<String> errorLines = new ArrayList<>();
+
+        //when
+        GenericCSVReader csvReader = new GenericCSVReader(DELIM, ESCAPE_CHAR);
         for (String line : lines){
             try {
-                System.out.println(csvReader.extractColumnValues(line));
+               csvReader.extractColumnValues(line);
             }catch (Exception e){
                 errorLines.add(line);
             }
@@ -36,22 +58,8 @@ public class TestCSVReading {
         if (lines.size() != 419){
             throw new Exception("the count was not as expected, got : " + lines.size() + "expected 419");
         }else{
-            System.out.println("successfully read and extracted file");
+            System.out.println("givenTheTestFile_ThenTheCSVReaderShouldExtractAllTheLines : successfully read and extracted file");
         }
-
-        //then for train
-        lines = Files.readAllLines(Path.of("S:\\Work\\ae\\Epita\\workspaces\\2021-t3-java-uml-ais\\titanic-training\\train.csv"));
-
-        for (String line : lines){
-            try {
-                System.out.println(csvReader.extractColumnValues(line));
-            }catch (Exception e){
-                errorLines.add(line);
-            }
-        }
-
-        //then
-        System.out.println("errors: " +errorLines);
     }
 
 
