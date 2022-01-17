@@ -13,38 +13,36 @@ import fr.epita.titanic.datamodel.Passenger;
 public class PassengerCSVReader2 {
 
 
-    Function<List<String>, Passenger> functionForTest = new Function<List<String>, Passenger>() {
+   public static final Function<List<String>, Passenger> functionForTest = strings -> {
+       Passenger instance = new Passenger();
+       instance.setPassengerId(Integer.parseInt(strings.get(0)));
+       instance.setpClass(Integer.parseInt(strings.get(1)));
+       instance.setName(strings.get(2));
+       instance.setSex(strings.get(3));
+       String s = strings.get(4);
+       instance.setAge(Double.parseDouble(checkForNull(s)));
+       return instance;
+
+   };
+    public static final Function<List<String>, Passenger> functionForTrain = new Function<List<String>, Passenger>() {
         @Override
         public Passenger apply(List<String> strings) {
             Passenger instance = new Passenger();
             instance.setPassengerId(Integer.parseInt(strings.get(0)));
-            instance.setpClass(Integer.parseInt(strings.get(1)));
-            instance.setName(strings.get(2));
-            instance.setSex(strings.get(3));
-            String s = strings.get(4);
+            instance.setSurvived(Integer.parseInt(strings.get(1)));
+            instance.setpClass(Integer.parseInt(strings.get(2)));
+            instance.setName(strings.get(3));
+            instance.setSex(strings.get(4));
+            String s = strings.get(5);
             instance.setAge(Double.parseDouble(checkForNull(s)));
             return instance;
 
         }
     };
-    Function<List<String>, Passenger> functionForTrain = new Function<List<String>, Passenger>() {
-        @Override
-        public Passenger apply(List<String> strings) {
-            Passenger instance = new Passenger();
-            instance.setPassengerId(Integer.parseInt(strings.get(0)));
-            instance.setpClass(Integer.parseInt(strings.get(1)));
-            instance.setName(strings.get(2));
-            instance.setSex(strings.get(3));
-            String s = strings.get(4);
-            instance.setAge(Double.parseDouble(checkForNull(s)));
-            return instance;
-
-        }
-    };
 
 
 
-    public List<Passenger> readPassengers(File file) throws IOException {
+    public List<Passenger> readPassengers(File file, Function<List<String>, Passenger> extractionFunction) throws IOException {
 
         //given
         List<String> lines = Files.readAllLines(file.toPath());
@@ -57,7 +55,7 @@ public class PassengerCSVReader2 {
         for (String line : lines){
             try {
                 List<String> strings = csvReader.extractColumnValues(checkForNull(line));
-                passengers.add(functionForTest.apply(strings));
+                passengers.add(extractionFunction.apply(strings));
                 //to be completed
             }catch (Exception e){
                 errorLines.add(checkForNull(line));
@@ -69,7 +67,7 @@ public class PassengerCSVReader2 {
 
     }
 
-    private String checkForNull(String s) {
+    private static String checkForNull(String s) {
         if (s == null){
             return "";
         }

@@ -7,10 +7,10 @@ public class Passenger {
 
     private Integer passengerId;
     private Integer survived;
-    private Integer pClass;
+    private Integer pClass= 0;
     private String name;
     private String sex;
-    private Double age;
+    private Double age = 0.0;
     private Integer sibSp;
     private Integer parch;
     private String ticket;

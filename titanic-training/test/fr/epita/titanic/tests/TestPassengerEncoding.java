@@ -24,7 +24,7 @@ public class TestPassengerEncoding {
     private static void givenTestFile_thenWeShouldHaveAValidListOfPassengersAndEncodeThem() throws IOException {
         File file = new File("./titanic-training/test.csv");
         PassengerCSVReader2 reader = new PassengerCSVReader2();
-        List<Passenger> passengers = reader.readPassengers(file);
+        List<Passenger> passengers = reader.readPassengers(file, PassengerCSVReader2.functionForTest);
 
         PassengerEncoder passengerEncoder = new PassengerEncoder();
         LinkedHashMap<String, Double> sexEncodedValues = new LinkedHashMap<>();
