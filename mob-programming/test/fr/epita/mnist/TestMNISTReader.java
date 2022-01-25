@@ -9,21 +9,20 @@ import java.util.stream.Collectors;
 
 import fr.epita.mnist.datamodel.MNISTImage;
 import fr.epita.mnist.services.MNISTReader;
+import static fr.epita.mnist.services.MNISTImageProcessor.displayImage;
 
 public class TestMNISTReader {
 
 
     public static void main(String[] args) throws Exception {
         MNISTReader reader = new MNISTReader();
-        List<MNISTImage> images = reader.readImages(new File("./mob-programming/mnist_test.csv"), 100);
+        List<MNISTImage> images = reader.readImages(new File("S:/tmp/mnist_test.csv"), 100);
 
 
         Map<Double, List<MNISTImage>> imagesByLabel = images.stream().collect(Collectors.groupingBy(MNISTImage::getLabel));
 
 
-        imagesByLabel.forEach((label, imageList) -> {
-            System.out.println(label + ":" +imageList.size());
-        });
+        List<MNISTImage> listOfOnes = imagesByLabel.get(1.0);
 
         if ( !(images.get(0).getLabel() == 7)){
             throw new Exception("verification exception, expected 7 and got: "+ images.get(0).getLabel());
@@ -32,19 +31,6 @@ public class TestMNISTReader {
         displayImage(images.get(0));
     }
 
-    private static void displayImage (MNISTImage image){
-        double[][] pixels = image.getPixels();
-        for (int i = 0; i < pixels.length; i ++){
-            for (int j = 0; j < pixels[i].length; j++){
-                if (pixels[i][j] < 128){
-                    System.out.print("..");
-                }else{
-                    System.out.print("xx");
-                }
-            }
-            System.out.println();
-        }
 
-    }
 
 }

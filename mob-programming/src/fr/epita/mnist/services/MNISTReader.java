@@ -17,8 +17,8 @@ public class MNISTReader {
 //     [4,5,6]
 //    ]
 
-    private static final int MAX_COL = 28;
-    private static final int MAX_ROW = 28;
+    public static final int MAX_COL = 28;
+    public static final int MAX_ROW = 28;
 
 
     public List<MNISTImage> readImages(File file, int maxLines) throws FileNotFoundException {
