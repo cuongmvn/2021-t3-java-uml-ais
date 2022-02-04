@@ -1,6 +1,9 @@
 package fr.epita.mnist.services;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import fr.epita.mnist.datamodel.MNISTImage;
 
@@ -20,6 +23,7 @@ public class MNISTImageProcessor {
         return centroid;
     }
 
+
     public double computeDistance(MNISTImage image1, MNISTImage image2){
         double distance = 0.0;
 
@@ -35,6 +39,23 @@ public class MNISTImageProcessor {
         return distance;
     }
 
+    public double computeDeviation(MNISTImage image1, MNISTImage image2){
+        double deviation = 0.0;
+
+        double[][] image1Pixels = image1.getPixels();
+        double[][] image2Pixels = image2.getPixels();
+
+        for (int i = 0 ; i < MNISTReader.MAX_ROW; i++){
+            for (int j = 0 ; j < MNISTReader.MAX_COL; j++){
+                deviation = deviation + Math.pow(image2Pixels[i][j] - image1Pixels[i][j],2);
+            }
+        }
+        deviation = Math.sqrt(deviation);
+
+        return deviation;
+    }
+
+
     public static void displayImage(MNISTImage image) {
         double[][] pixels = image.getPixels();
         for (int i = 0; i < pixels.length; i++) {
@@ -48,4 +69,5 @@ public class MNISTImageProcessor {
             System.out.println();
         }
     }
+
 }

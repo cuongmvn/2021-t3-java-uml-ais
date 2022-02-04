@@ -8,39 +8,30 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.epita.mnist.datamodel.MNISTImage;
+import fr.epita.mnist.services.CentroidClassifier;
 import fr.epita.mnist.services.MNISTImageProcessor;
 import fr.epita.mnist.services.MNISTReader;
+import fr.epita.mnist.services.Predict;
 
 public class TestMNISTImageProcessor {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        MNISTImageProcessor processor = new MNISTImageProcessor();
+        CentroidClassifier classifier = new CentroidClassifier();
         MNISTReader reader = new MNISTReader();
-        List<MNISTImage> images = reader.readImages(new File("S:/tmp/mnist_test.csv"), 100);
+        List<MNISTImage> images = reader.readImages(new File("mob-programming/mnist_train.csv"), 10000);
+        List<MNISTImage> test_images = reader.readImages(new File("mob-programming/mnist_test.csv"), 1000);
 
-        Map<Double, List<MNISTImage>> imagesByLabel = images.stream().collect(Collectors.groupingBy(MNISTImage::getLabel));
+        Map<Double, MNISTImage> centroids = classifier.trainCentroid(images);
 
-        List<MNISTImage> listOfOnes = imagesByLabel.get(1.0);
+        Map<Double, List<MNISTImage>> imagesByLabel = test_images.stream().collect(Collectors.groupingBy(MNISTImage::getLabel));
         List<MNISTImage> listOfZeros = imagesByLabel.get(0.0);
-        MNISTImage centroidFor1 = processor.computeCentroid(1.0, listOfOnes);
 
-        Map<Double, MNISTImage> centroids = new LinkedHashMap<>();
-
-        for (Map.Entry<Double, List<MNISTImage>> entry : imagesByLabel.entrySet()){
-            MNISTImage centroid = processor.computeCentroid(entry.getKey(), entry.getValue());
-            centroids.put(centroid.getLabel(), centroid);
+        Predict predict = new Predict();
+        System.out.println("Sample prediction for first 10 value of 0");
+        for(int i = 0; i<=9; i++) {
+            System.out.print(predict.predict(listOfZeros.get(i), centroids)+ "\t");
         }
-
-        System.out.println(processor.computeDistance(listOfOnes.get(0), centroidFor1));
-        System.out.println(processor.computeDistance(listOfZeros.get(0), centroidFor1));
-
-
-        MNISTImageProcessor.displayImage(centroidFor1);
-
-
-
-
 
 
     }

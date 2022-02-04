@@ -3,11 +3,9 @@ package fr.epita.mnist.datamodel;
 public class MNISTImage {
 
 
-
-
     double label;
 
-    double[][] pixels = new double[28][28];
+    double[][] pixels;
 
 
     public MNISTImage(double label, double[][] pixels) {
