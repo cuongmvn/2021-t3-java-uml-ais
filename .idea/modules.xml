@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/2021-t3-java-uml-ais.iml" filepath="$PROJECT_DIR$/2021-t3-java-uml-ais.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bank-account-demo/bank-account-demo.iml" filepath="$PROJECT_DIR$/bank-account-demo/bank-account-demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/io-demo/io-demo.iml" filepath="$PROJECT_DIR$/io-demo/io-demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/mob-programming/mob-programming.iml" filepath="$PROJECT_DIR$/mob-programming/mob-programming.iml" />
-      <module fileurl="file://$PROJECT_DIR$/titanic-training/titanic-training.iml" filepath="$PROJECT_DIR$/titanic-training/titanic-training.iml" />
     </modules>
   </component>
 </project>
